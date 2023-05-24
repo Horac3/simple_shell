@@ -16,17 +16,23 @@
 #define PROMPT "$ "
 #define MAX_ARGS 64
 
+typedef struct {
+    int readfd;
+} info_t;
+
+#define INFO_INIT { 0 }
+
 
 char *read_shell_input(void);
-execute_shell_command(char *command);
+void execute_shell_command(char *command);
 
-execute_command(char **args);
+void execute_command(char **args);
 char **read_input(void);
 
 char **read_path_input(void);
 void execute_path_command(char **args);
 
-custom_getline(void);
+char *custom_getline(void);
 
 void exit_shell();
 char **parse_shell_input(char *input);
@@ -40,11 +46,6 @@ char **parse_input_status(char *input);
 void exit_shell_status(int status);
 char *read_input_status();
 int execute_builtin(char **args);
-
-populate_env_list(info);
-read_history(info);
-hsh(info, argv);
-
 
 
 #endif
