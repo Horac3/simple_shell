@@ -3,17 +3,18 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/wait.h>
 
 #define MAX_INPUT_SIZE 1024
 #define PROMPT "$ "
 
 /**
- * read_input - reads users input
+ * read_shell_input - reads users input
  * @void: takes no parameters
  * Return: returns the input as a prompt.
  */
 
-char *read_input(void)
+char *read_shell_input(void)
 {
 	char *input = (char *)malloc(MAX_INPUT_SIZE);
 
@@ -38,57 +39,38 @@ char *read_input(void)
 }
 
 /**
- * execute_command - excutes user command
+ * execute_shell_command - excutes user command
  * @command: command parameter
  * Return: returns void.
  */
 
-void execute_command(char *command)
+void execute_shell_command(char *command)
 {
-	pid_t pid = fork();
+    pid_t pid = fork();
 
-	if (pid == -1)
-	{
-		perror("fork() failed");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		char *args[] = {command, NULL};
+    if (pid == -1)
+    {
+        perror("fork() failed");
+        exit(EXIT_FAILURE);
+    }
+    if (pid == 0)
+    {
+        char *args[2];
+        args[0] = command;
+        args[1] = NULL;
 
-		if (execvp(args[0], args) == -1)
-		{
-			perror("execvp() failed");
-			exit(EXIT_FAILURE);
-		}
-		exit(EXIT_SUCCESS);
-	}
-	if (waitpid(pid, NULL, 0) == -1)
-	{
-		perror("waitpid() failed");
-		exit(EXIT_FAILURE);
-	}
+        if (execvp(args[0], args) == -1)
+        {
+            perror("execvp() failed");
+            exit(EXIT_FAILURE);
+        }
+        exit(EXIT_SUCCESS);
+    }
+    if (waitpid(pid, NULL, 0) == -1)
+    {
+        perror("waitpid() failed");
+        exit(EXIT_FAILURE);
+    }
 }
 
-/**
- * main - main file
- * @void: takes no parameters
- * Return: returns 0.
- */
-
-int main(void)
-{
-	while (1)
-	{
-		char *input = read_input();
-
-		if (strlen(input) > 1)
-		{
-			input[strlen(input) - 1] = '\0';
-			execute_command(input);
-		}
-		free(input);
-	}
-	return (0);
-}
 

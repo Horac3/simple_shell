@@ -3,38 +3,81 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/wait.h>
+
+#define MAX_INPUT_SIZE 1024
+#define PROMPT "$ "
+
+char **read_path_input(void);
+void execute_path_command(char **args);
 
 /**
- * execute_command - executes user command
- * @args: command line arguments as parameters
- * @envp: path
- * Return: returns the input as a prompt.
+ * read_path_input - determines length of linked list
+ *
+ * Return: returns args
  */
-void execute_command(char **args, char **envp)
-{
-	char *path = getenv("PATH"), *full_path = NULL, *dir = strtok(path, ":");
 
-	while (dir != NULL)
+
+char **read_path_input(void)
+{
+	char *input = (char *)malloc(MAX_INPUT_SIZE);
+	char **args;
+	int i;
+	char *token;
+
+
+	input = (char *)malloc(MAX_INPUT_SIZE);
+	if (input == NULL)
 	{
-		full_path = (char *)malloc(strlen(dir) + strlen(args[0]) + 2);
-		if (full_path == NULL)
-		{
-			perror("malloc() failed");
-			exit(EXIT_FAILURE);
-		}
-		sprintf(full_path, "%s/%s", dir, args[0]);
-		if (access(full_path, F_OK) == 0)
-		{
-			break;
-		}
-		free(full_path);
-		dir = strtok(NULL, ":");
+		perror("malloc() failed");
+		exit(EXIT_FAILURE);
 	}
-	if (dir == NULL)
+
+	printf("%s", PROMPT);
+
+	if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL)
 	{
-		printf("%s: command not found\n", args[0]);
-		return;
+		free(input);
+		if (errno == 0)
+		{
+			printf("\n");
+			exit(EXIT_SUCCESS);
+		}
+		perror("fgets() failed");
+		exit(EXIT_FAILURE);
 	}
+
+	args = (char **)malloc(MAX_INPUT_SIZE * sizeof(char *));
+
+	if (args == NULL)
+	{
+		perror("malloc() failed");
+		exit(EXIT_FAILURE);
+	}
+
+	i = 0;
+	token = strtok(input, " \n");
+
+	while (token != NULL)
+	{
+		args[i++] = token;
+		token = strtok(NULL, " \n");
+	}
+	args[i] = NULL;
+
+	free(input);
+	return (args);
+}
+
+
+/**
+ * execute_path_input - determines length of linked list
+ * @args: commandline arguments
+ * 
+ */
+
+void execute_path_command(char **args)
+{
 	pid_t pid = fork();
 
 	if (pid == -1)
@@ -42,42 +85,20 @@ void execute_command(char **args, char **envp)
 		perror("fork() failed");
 		exit(EXIT_FAILURE);
 	}
+
 	if (pid == 0)
 	{
-		if (execve(full_path, args, envp) == -1)
+		if (execvp(args[0], args) == -1)
 		{
-			perror("execve() failed");
+			perror("execvp() failed");
 			exit(EXIT_FAILURE);
 		}
 		exit(EXIT_SUCCESS);
 	}
+
 	if (waitpid(pid, NULL, 0) == -1)
 	{
 		perror("waitpid() failed");
 		exit(EXIT_FAILURE);
 	}
-	free(full_path);
 }
-
-/**
- * main - main function
- * @argc: command line arguments as parameters
- * @argv: command line arguments as parameters
- * @envp: path
- * Return: returns 0.
- */
-int main(int argc, char **argv, char **envp)
-{
-	while (1)
-	{
-		char **args = read_input();
-
-		if (args[0] != NULL)
-		{
-			execute_command(args, envp);
-		}
-		free(args);
-	}
-	return (0);
-}
-
