@@ -2,22 +2,21 @@
 #include "shell.h"
 
 /**
- * exit_shell - Exit the shell
+ * exit_shell_4 - Exit the shell
+ * exit_4 - Exit shell
  */
 
-void exit_shell(void)
+void exit_shell_4(void)
 {
 	exit(EXIT_SUCCESS);
 }
-
-int main(int argc, char *argv[], char **env)
+int exit_4(int argc, char *argv[], char **env)
 {
-	(void)argc;
-	(void)argv;
-	(void)env;
+    (void)argc;
+    (void)argv;
+    (void)env;
 
-	exit_shell();
+    exit_shell();
 
-	return (0);
+    return 0;
 }
-

@@ -2,11 +2,11 @@
 #include "shell.h"
 
 /**
- * print_environment - Print the current environment
+ * print_environment_5 - Print the current environment
  * @env: The environment variable array
  */
 
-void print_environment(char **env)
+void print_environment_5(char **env)
 {
 	int i = 0;
 
@@ -18,16 +18,16 @@ void print_environment(char **env)
 }
 
 /**
- * env_shell - Implementation of the env built-in command
+ * env_shell_5 - Implementation of the env built-in command
  * @env: The environment variable array
  */
 
-void env_shell(char **env)
+void env_shell_5(char **env)
 {
 	print_environment(env);
 }
 
-int main(int argc, char *argv[], char **env)
+int env_5(int argc, char *argv[], char **env)
 {
 	(void)argc;
 	(void)argv;

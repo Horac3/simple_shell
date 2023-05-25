@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * execute_cd_command - Execute a single command
+ * execute_cd_command_10 - Execute a single command
  * @command: The command to be executed
  */
 
-void execute_cd_command(char *command)
+void execute_cd_command_10(char *command)
 {
 	pid_t pid;
 	int status;
@@ -38,11 +38,11 @@ void execute_cd_command(char *command)
 
 
 /**
- * change_directory - Change the current directory
+ * change_directory_10 - Change the current directory
  * @path: The path to change the directory to
  */
 
-void change_directory(char *path)
+void change_directory_10(char *path)
 {
 	char cwd[256];
 
@@ -68,15 +68,15 @@ void change_directory(char *path)
 }
 
 /**
- * main - Entry point of the shell program
+ * cd_10 - Entry point of the shell program
  * @argc: The number of command-line arguments
  * @argv: An array of command-line argument strings
  * Return: EXIT_SUCCESS if successful, EXIT_FAILURE if fail
  */
 
-int main(int argc, char **argv)
+int cd_10(int argc, char **argv)
 {
-	char command[256];
+	char commands[256];
 	if (argc > 1)
 	{
 		fprintf(stderr, "Usage: %s\n", argv[0]);
@@ -87,18 +87,18 @@ int main(int argc, char **argv)
 	while (1)
 	{
 		printf("$ ");
-		fgets(command, sizeof(command), stdin);
-		command[strcspn(command, "\n")] = '\0';
+		fgets(commands, sizeof(commands), stdin);
+		commands[strcspn(commands, "\n")] = '\0';
 
-		if (strncmp(command, "cd", 2) == 0)
+		if (strncmp(commands, "cd", 2) == 0)
 		{
-			char *arg = strtok(command, " ");
+			char *arg = strtok(commands, " ");
 			arg = strtok(NULL, " ");
 			change_directory(arg);
 		}
 		else
 		{
-			execute_cd_command(command);
+			execute_cd_command_10(commands);
 		}
 	}
 

@@ -7,13 +7,13 @@
 #include "shell.h"
 
 /**
- * execute_separator_command - Execute a single command
+ * execute_separator_command_11 - Execute a single command
  * @command: The command to be executed
  *
  * Description: This function executes a single command by forking a child
  * process and calling execvp.
  */
-void execute_separator_command(char *command)
+void execute_separator_command_11(char *command)
 {
 	pid_t pid;
 	int status;
@@ -43,14 +43,14 @@ void execute_separator_command(char *command)
 }
 
 /**
- * process_commands - Process multiple commands
+ * process_commands_11 - Process multiple commands
  * @commands: The commands to be processed
  *
  * Description: This function processes multiple commands separated by semicolons.
  * It splits the input into individual commands and executes them using
  * execute_separator_command.
  */
-void process_commands(char *commands)
+void process_commands_11(char *commands)
 {
 	char *token;
 	char *delimiter = ";";
@@ -58,13 +58,13 @@ void process_commands(char *commands)
 	token = strtok(commands, delimiter);
 	while (token != NULL)
 	{
-		execute_separator_command(token);
+		execute_separator_command_11(token);
 		token = strtok(NULL, delimiter);
 	}
 }
 
 /**
- * main - Entry point of the program
+ * seperator_11 - Entry point of the program
  * @argc: The argument count
  * @argv: The argument vector
  *
@@ -74,7 +74,7 @@ void process_commands(char *commands)
  *
  * Return: Always returns EXIT_SUCCESS.
  */
-int main(int argc, char **argv)
+int separator_11(int argc, char **argv)
 {
 	char command[256];
 	if (argc > 1)
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 		fgets(command, sizeof(command), stdin);
 		command[strcspn(command, "\n")] = '\0';
 
-		process_commands(command);
+		process_commands_11(command);
 	}
 
 	return EXIT_SUCCESS;
