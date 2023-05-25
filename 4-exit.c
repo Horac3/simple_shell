@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "shell.h"
 
 /**
@@ -8,3 +9,15 @@ void exit_shell(void)
 {
 	exit(EXIT_SUCCESS);
 }
+
+int main(int argc, char *argv[], char **env)
+{
+	(void)argc;
+	(void)argv;
+	(void)env;
+
+	exit_shell();
+
+	return (0);
+}
+

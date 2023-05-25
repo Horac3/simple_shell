@@ -35,8 +35,7 @@ void execute_separator_command(char *command)
 	}
 	else
 	{
-		do
-		{
+		do {
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
@@ -85,7 +84,7 @@ int main(int argc, char **argv)
 
 	while (1)
 	{
-		printf("$ ");
+		printf("$\n");
 
 		fgets(command, sizeof(command), stdin);
 		command[strcspn(command, "\n")] = '\0';
@@ -95,3 +94,4 @@ int main(int argc, char **argv)
 
 	return EXIT_SUCCESS;
 }
+
