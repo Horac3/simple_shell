@@ -16,7 +16,8 @@
 #define PROMPT "$ "
 #define MAX_ARGS 64
 
-typedef struct {
+typedef struct
+{
     int readfd;
 } info_t;
 
@@ -34,7 +35,7 @@ void execute_path_command(char **args);
 
 char *custom_getline(void);
 
-void exit_shell();
+void exit_shell(void);
 char **parse_shell_input(char *input);
 char *read_input_shell();
 
