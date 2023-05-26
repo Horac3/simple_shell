@@ -11,7 +11,7 @@ int _erratoi(char *s)
 	unsigned long int result = 0;
 
 	if (*s == '+')
-		s++;  /* TODO: why does this make main return 255? */
+		s++;  
 	for (i = 0;  s[i] != '\0'; i++)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
@@ -122,18 +122,18 @@ char *convert_number(long int num, int base, int flags)
 
 /**
  * remove_comments - function replaces first instance of '#' with '\0'
- * @buf: address of the string to modify
+ * @buffer: address of the string to modify
  *
  * Return: Always 0;
  */
-void remove_comments(char *buf)
+void remove_comments(char *buffer)
 {
 	int i;
 
-	for (i = 0; buf[i] != '\0'; i++)
-		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+	for (i = 0; buffer[i] != '\0'; i++)
+		if (buffer[i] == '#' && (!i || buffer[i - 1] == ' '))
 		{
-			buf[i] = '\0';
+			buffer[i] = '\0';
 			break;
 		}
 }

@@ -28,34 +28,34 @@ void _eputs(char *str)
 int _eputchar(char c)
 {
 	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	static char buffer[WRITE_BUF_SIZE];
 
 	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
-		write(2, buf, i);
+		write(2, buffer, i);
 		i = 0;
 	}
 	if (c != BUF_FLUSH)
-		buf[i++] = c;
+		buffer[i++] = c;
 	return (1);
 }
 
 /**
  * _putfd - writes the character c to given fd
  * @c: The character to print
- * @fd: The filedescriptor to write to
+ * @fdesc: The filedescriptor to write to
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _putfd(char c, int fd)
+int _putfd(char c, int fdesc)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
 
 	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
-		write(fd, buf, i);
+		write(fdesc, buf, i);
 		i = 0;
 	}
 	if (c != BUF_FLUSH)
@@ -66,20 +66,20 @@ int _putfd(char c, int fd)
 /**
  * _putsfd - prints an input string
  * @str: the string to be printed
- * @fd: the filedescriptor to write to
+ * @fdesc: the filedescriptor to write to
  *
  * Return: the number of chars put
  */
-int _putsfd(char *str, int fd)
+int _putsfd(char *str, int fdesc)
 {
-	int i = 0;
+	int j = 0;
 
 	if (!str)
 		return (0);
 	while (*str)
 	{
-		i += _putfd(*str++, fd);
+		j += _putfd(*str++, fdesc);
 	}
-	return (i);
+	return (j);
 }
 
